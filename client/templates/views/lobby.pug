@@ -1,0 +1,9 @@
+ul#messages
+    li.message(ng-repeat="message in vm.messages")
+        span.author(ng-bind="message.player.name")
+        span.message(ng-bind="message.message")
+
+ul#playerlist
+    li.player(ng-repeat="player in vm.players", ng-bind="player.name", ng-class="{'me': player.id == vm.player.id}")
+
+form#input(ng-submit="vm.send()"): input(name="message", ng-model="vm.message")
