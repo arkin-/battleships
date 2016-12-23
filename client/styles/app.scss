@@ -1,42 +1,90 @@
-body {
-    overflow:hidden;
-}
+// body {
+//     overflow:hidden;
+// }
+//
+// #messages {
+//     position: absolute;
+//     top:0;
+//     left:0;
+//     width:90%;
+//     height: 90%;
+//     border-right: 1px solid #666;
+//     overflow:hidden;
+//     overflow-x: auto;
+// }
+//
+// #playerlist {
+//     position: absolute;
+//     top:0;
+//     right:0;
+//     width:10%;
+//     height: 90%;
+//
+//     .me {
+//         color: red;
+//     }
+// }
+//
+// #input {
+//     position: absolute;
+//     bottom:0;
+//     right:0;
+//     width:100%;
+//     height: 10%;
+//     border-top: 1px solid #666;
+//
+//     input {
+//         width: 100%;
+//         height: 100%;
+//         border: none;
+//         background: transparent;
+//     }
+// }
 
-#messages {
-    position: absolute;
-    top:0;
-    left:0;
-    width:90%;
-    height: 90%;
-    border-right: 1px solid #666;
-    overflow:hidden;
-    overflow-x: auto;
-}
-
+#messages,
 #playerlist {
-    position: absolute;
-    top:0;
-    right:0;
-    width:10%;
-    height: 90%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    height: 300px;
+    list-style: none;
+    overflow:hidden;
+    overflow-y: scroll;
+
+    .author {
+        font-weight: bold;
+        margin-right: 10px;
+    }
 
     .me {
-        color: red;
+        color: blue;
     }
 }
 
 #input {
-    position: absolute;
-    bottom:0;
-    right:0;
-    width:100%;
-    height: 10%;
-    border-top: 1px solid #666;
+    border: 1px solid #ccc;
+    padding: 10px;
 
     input {
         width: 100%;
         height: 100%;
         border: none;
         background: transparent;
+
+        &:focus {
+            outline-width: 0;
+        }
     }
+}
+
+.fa-margin-left {
+    margin-left: 10px;
+}
+
+.fa-margin-right {
+    margin-right: 10px;
+}
+
+[ng-click],
+[ui-sref] {
+    cursor: pointer;
 }

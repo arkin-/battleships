@@ -12,6 +12,8 @@ const Player = require('./server/player.js'),
 
 const players = [];
 
+const message_history = [];
+
 function debug(message, color = 'blue') {
     console.log('[' + (new Date()) + '] ' + colors[color](message));
 }
@@ -22,7 +24,7 @@ app.use(express.static('public'));
 // Socket IO connections
 io.on('connection', (socket) => {
     // Create a player from the connection.
-    var player = new Player(socket.id);
+    let player = new Player(socket.id);
 
     // Add the player to the player list.
     players.push(player);
@@ -32,6 +34,10 @@ io.on('connection', (socket) => {
 
     // Tell everyone about the new player
     io.emit('enter', player.details());
+
+    // Add lobby messages
+    if (message_history.length)
+        message_history.forEach((message) => io.emit('lobby message', message));
 
     // Update the player with all rooms/players
     socket.emit('update', {
@@ -109,10 +115,17 @@ io.on('connection', (socket) => {
     socket.on('lobby message', (message) => {
         debug('(' + player.name + ') ' + message, 'green');
 
-        io.emit('lobby message', {
+        message = {
             player: player,
             message: message
-        });
+        };
+
+        io.emit('lobby message', message);
+        message_history.push(message);
+
+        if (message_history.length >= 20) {
+            message_history.shift();
+        }
     });
 
     // Player sends a chat message
@@ -139,7 +152,7 @@ io.on('connection', (socket) => {
 
     // Player disconnected
     socket.on('disconnect', () => {
-        players.splice(player, 1);
+        players.splice(players.indexOf(player), 1);
         Lobby.partAll(player);
         io.emit('exit', player.details());
 

@@ -6,7 +6,7 @@
         .module('app', [
             'ngStorage',
             'ui.router',
-            // 'ui.bootstrap',
+            'ui.bootstrap'
         ])
         .config(DefaultRouteConfig)
         .config(Routes);

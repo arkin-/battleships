@@ -2,7 +2,9 @@
 ;(function() {
     'use strict';
 
-    angular.module('app').controller('LobbyController', Controller);
+    angular.module('app')
+        .directive('messagesRepeat', RepeatFinish)
+        .controller('LobbyController', Controller);
 
     function Controller($timeout) {
         var vm = this;
@@ -11,11 +13,13 @@
 
         vm.messages = [];
         vm.players = [];
+        vm.rooms = [];
 
         socket.on('update', function(data) {
             $timeout(() => {
                 vm.player = data.player;
                 vm.players = data.players;
+                vm.rooms = data.rooms;
             });
         });
 
@@ -35,5 +39,19 @@
             socket.emit('lobby message', vm.message);
             vm.message = '';
         };
+    }
+
+    function RepeatFinish($timeout) {
+        return {
+           restrict: 'A',
+           link: function (scope, element, attr) {
+               if (scope.$last === true) {
+                   $timeout(() => {
+                       var el = document.getElementById('messages');
+                       el.scrollTop = el.scrollHeight;
+                   });
+               }
+           }
+       }
     }
 })();
